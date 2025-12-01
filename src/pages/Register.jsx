@@ -15,7 +15,10 @@ const Register = () => {
     e.preventDefault();
     let registerData = { name, email, password, phoneNumber };
     console.log(registerData);
-    let resp = await axios.post('http://localhost:9001/api/users/register', registerData);
+    let resp = await axios.post(
+      'https://todo-backend-4aeh.onrender.com/api/users/register',
+      registerData
+    );
     console.log(resp);
 
     if (resp.data.success) {

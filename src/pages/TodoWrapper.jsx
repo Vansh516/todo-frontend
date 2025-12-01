@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import CreateTodo from './CreateTodo';
 import DisplayTodo from './DisplayTodo';
 
+axios.defaults.withCredentials = true;
+
 const TodoWrapper = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -12,7 +14,7 @@ const TodoWrapper = () => {
   const [allTodos, setAllTodos] = useState([]);
 
   const getAllTodos = async () => {
-    let resp = await axios.get('http://localhost:9001/api/tasks/all');
+    let resp = await axios.get('https://todo-backend-4aeh.onrender.com/api/tasks/all');
     console.log(resp.data.data);
     setAllTodos(resp.data.data);
   };
@@ -27,20 +29,26 @@ const TodoWrapper = () => {
     if (title.trim() === '' && content.trim() === '') return;
 
     if (editId) {
-      let resp = await axios.patch(`http://localhost:9001/api/tasks/edit/${editId}`, {
-        title,
-        content,
-        status,
-      });
+      let resp = await axios.patch(
+        `https://todo-backend-4aeh.onrender.com/api/tasks/edit/${editId}`,
+        {
+          title,
+          content,
+          status,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       console.log(resp);
       setEditId(null);
     } else {
       let newTodo = { title: title.trim(), content: content.trim() };
 
-      let resp = await axios.post('http://localhost:9001/api/tasks/add', newTodo, {
+      let resp = await axios.post('https://todo-backend-4aeh.onrender.com/api/tasks/add', newTodo, {
         withCredentials: true,
       });
-      // console.log(resp);
+      console.log(resp);
     }
 
     setTitle('');
@@ -49,10 +57,14 @@ const TodoWrapper = () => {
   };
 
   const handleDeleteTodo = (id) => {
-    axios.delete(`http://localhost:9001/api/tasks/delete/${id}`).then((resp) => {
-      console.log(resp);
-      getAllTodos();
-    });
+    axios
+      .delete(`https://todo-backend-4aeh.onrender.com/api/tasks/delete/${id}`, {
+        withCredentials: true,
+      })
+      .then((resp) => {
+        console.log(resp);
+        getAllTodos();
+      });
   };
 
   const handleEditTodo = (id) => {

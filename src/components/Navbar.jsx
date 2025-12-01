@@ -10,7 +10,7 @@ const Navbar = () => {
 
   function handleLogout() {
     axios
-      .post('http://localhost:9001/api/users/logout')
+      .post('https://todo-backend-4aeh.onrender.com/api/users/logout')
       .then(() => {
         localStorage.removeItem('token');
         navigate('/');
