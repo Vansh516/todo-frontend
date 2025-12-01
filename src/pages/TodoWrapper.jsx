@@ -6,6 +6,7 @@ import DisplayTodo from './DisplayTodo';
 const TodoWrapper = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [status, setStatus] = useState('pending');
   const [editId, setEditId] = useState(null);
 
   const [allTodos, setAllTodos] = useState([]);
@@ -29,8 +30,10 @@ const TodoWrapper = () => {
       let resp = await axios.patch(`http://localhost:9001/api/tasks/edit/${editId}`, {
         title,
         content,
+        status,
       });
-      // console.log(resp);
+      console.log(resp);
+      setEditId(null);
     } else {
       let newTodo = { title: title.trim(), content: content.trim() };
 
@@ -57,12 +60,16 @@ const TodoWrapper = () => {
     console.log(todoToEdit);
     setTitle(todoToEdit.title);
     setContent(todoToEdit.content);
+    setStatus(todoToEdit.status);
     setEditId(todoToEdit._id);
   };
 
   return (
     <div className="wrapper">
       <CreateTodo
+        status={status}
+        setStatus={setStatus}
+        editId={editId}
         title={title}
         setTitle={setTitle}
         content={content}

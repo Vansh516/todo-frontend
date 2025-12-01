@@ -1,12 +1,13 @@
 import styles from './CreateTodo.module.css';
 
 const CreateTodo = (props) => {
-  const { title, setTitle, content, setContent, handleAddTodo } = props;
+  const { title, setTitle, content, setContent, handleAddTodo, editId, status, setStatus } = props;
+  console.log('Status', status);
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleAddTodo} className={styles.form}>
-        <h1>Create Todo</h1>
+        <h1>{editId ? 'Update Todo' : 'Create Todo'}</h1>
 
         <input
           type="text"
@@ -26,8 +27,27 @@ const CreateTodo = (props) => {
           className={styles.input}
         />
 
+        {editId && (
+          <div className={styles.status}>
+            <input
+              type="checkbox"
+              value={status}
+              id="status"
+              checked={status === 'completed' ? true : false}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  setStatus('completed');
+                } else {
+                  setStatus('pending');
+                }
+              }}
+            />
+            <label htmlFor="status">Status</label>
+          </div>
+        )}
+
         <button type="submit" className={styles.button}>
-          Add ✏️
+          {editId ? 'Update ✅' : 'Add ✏️'}
         </button>
       </form>
     </div>
