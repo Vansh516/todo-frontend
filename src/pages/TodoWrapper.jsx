@@ -14,9 +14,13 @@ const TodoWrapper = () => {
   const [allTodos, setAllTodos] = useState([]);
 
   const getAllTodos = async () => {
-    let resp = await axios.get('https://todo-backend-4aeh.onrender.com/api/tasks/all');
-    console.log(resp.data.data);
-    setAllTodos(resp.data.data || []);
+    try {
+      let resp = await axios.get('https://todo-backend-4aeh.onrender.com/api/tasks/all');
+      console.log(resp.data.data);
+      setAllTodos(resp.data.data);
+    } catch (error) {
+      setAllTodos([]);
+    }
   };
 
   useEffect(() => {
