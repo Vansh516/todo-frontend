@@ -16,7 +16,7 @@ const TodoWrapper = () => {
   const getAllTodos = async () => {
     let resp = await axios.get('https://todo-backend-4aeh.onrender.com/api/tasks/all');
     console.log(resp.data.data);
-    setAllTodos(resp.data.data);
+    setAllTodos(resp.data.data || []);
   };
 
   useEffect(() => {
@@ -57,6 +57,8 @@ const TodoWrapper = () => {
   };
 
   const handleDeleteTodo = (id) => {
+    if (allTodos.length === 0) setAllTodos([]);
+
     axios
       .delete(`https://todo-backend-4aeh.onrender.com/api/tasks/delete/${id}`, {
         withCredentials: true,
