@@ -1,9 +1,9 @@
+axios.defaults.withCredentials = true;
+
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import CreateTodo from './CreateTodo';
 import DisplayTodo from './DisplayTodo';
-
-axios.defaults.withCredentials = true;
 
 const TodoWrapper = () => {
   const [title, setTitle] = useState('');
